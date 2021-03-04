@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
                 amount: 200000,
                 orderId: "order01",
                 orderLabel: "Book ABC",
+                isDevelopmentMode: true,
               );
               _momoPayment.requestPayment(data);
             },

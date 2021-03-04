@@ -1,8 +1,8 @@
 name: momo_payment
 description: A new Momo Payment plugin.
 version: 0.0.1
-author:
-homepage:
+author: E-Tech
+homepage: https://github.com/AnhTu6610/momo_payment
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

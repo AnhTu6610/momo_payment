@@ -10,19 +10,22 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** MomoPaymentPlugin */
-class MomoPaymentPlugin(private val registrar: Registrar): FlutterPlugin, MethodCallHandler {
+class MomoPaymentPlugin(private val registrar: Registrar): MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
   private var momoPaymentDelegate = MomoPaymentDelegate(registrar)
-  private lateinit var channel : MethodChannel
-  val momoPaymentPlugin = MomoPaymentPlugin(registrar)
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(registrar.messenger(), Constant.CHANNEL_NAME)
-    channel.setMethodCallHandler(momoPaymentPlugin)
-  }
 
+
+  companion object {
+    @JvmStatic
+    fun registerWith(registrar: Registrar) {
+      val momoPaymentPlugin = MomoPaymentPlugin(registrar)
+      val channel = MethodChannel(registrar.messenger(), Constant.CHANNEL_NAME)
+      channel.setMethodCallHandler(momoPaymentPlugin)
+    }
+  }
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     when (call.method) {
       Constant.METHOD_REQUEST_PAYMENT -> {
@@ -32,7 +35,4 @@ class MomoPaymentPlugin(private val registrar: Registrar): FlutterPlugin, Method
     }
   }
 
-  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
-  }
 }
